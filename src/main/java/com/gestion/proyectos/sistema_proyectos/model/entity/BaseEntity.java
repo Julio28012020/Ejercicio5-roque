@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.EqualsAndHashCode;
+import jakarta.persistence.PrePersist;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +21,11 @@ public abstract class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-     @Column(name = "fecha_creacion")
+    @Column(name = "fecha_creacion", updatable = false)
     private LocalDateTime fechaCreacion;
+
+    @PrePersist
+    protected void onCreate() {
+    this.fechaCreacion = LocalDateTime.now();
+}
 }
